@@ -1,0 +1,21 @@
+{
+  "name": "tp2-chateauroux-guillaume",
+  "version": "1.0.0",
+  "description": "Some docker stuff",
+  "main": "server.js",
+  "scripts": {
+    "prod": "npm i --only=prod && node server.js",
+    "dev": "npm i && npx nodemon sever.js",
+    "start": "node server.js"
+  },
+  "author": "Guillaume Chateauroux",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "pg": "^7.17.0",
+    "redis": "^2.8.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
+}

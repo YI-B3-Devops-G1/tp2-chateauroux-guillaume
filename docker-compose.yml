@@ -1,0 +1,67 @@
+version: '3.1'
+
+services:
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: ./Dockerfile
+    depends_on:
+      - nodeapi
+    container_name: nginx
+    hostname: nginx
+    networks:
+      - network-nodejs
+    restart: on-failure
+    ports:
+      - 3000:3000
+  
+  nodeapi:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    depends_on:
+      - postgres
+      - redis
+    container_name: nodeapi
+    hostname: nodeapi
+    environment:
+      - NODE_ENV=development
+      - API_PORT=8080
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=admin
+      - DB_USER=admin
+      - DB_PASSWORD=admin
+      - REDIS_HOST=redis
+    volumes:
+      - ./app:/app
+    restart: on-failure
+    networks:
+      - network-database
+      - network-nodejs
+
+  postgres:
+    image: postgres:alpine
+    depends_on:
+      - redis
+    container_name: postgres
+    hostname: postgres
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: admin
+      PGDATA: /data/postgres
+    restart: on-failure
+    networks:
+      - network-database
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+    restart: on-failure
+    networks:
+      - network-database
+
+networks:
+  network-database:
+  network-nodejs:
