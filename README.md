@@ -1,4 +1,4 @@
-# B3 Devops - TP 1
+# B3 Devops - TP 2
 
 ## Info
 mail: guillaume.chateauroux@ynov.com
